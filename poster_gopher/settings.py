@@ -58,6 +58,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://skenestunts.herokuapp.com",
 ]
 
 ROOT_URLCONF = "poster_gopher.urls"
