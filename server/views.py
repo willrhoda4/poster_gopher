@@ -57,6 +57,8 @@ def getFlicks(request):
         total_credits  = len(all_films)
         all_films      = list(set(all_films))
 
+        print("Total credits: ", total_credits, "\n","All films: ", all_films)
+
 
         return HttpResponse(json.dumps([total_credits, all_films]))
 
