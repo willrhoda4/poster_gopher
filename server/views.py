@@ -11,7 +11,7 @@ import json
 import requests
 
 from   django.views.decorators.csrf import csrf_exempt
-from   django.http                  import HttpResponse
+from   django.http                  import HttpResponse, JsonResponse
 from   bs4                          import BeautifulSoup as bs
 
 
@@ -29,46 +29,85 @@ def hello_world(request):
 # imdb.com for all the stunt credits associated with each id,
 # counts the  number of credits, deduplicates the list using set()
 # then returns the total amount and the list.
+# @csrf_exempt
+# def getFlicks(request):
+
+#     try:
+
+#         data = json.loads(request.body)
+#         team = data.get('team', []) 
+#         print(f"Retrieving flicklist for the following team members:\n{team}\n")
+
+#         all_films = []
+
+#         for member in team:
+
+#             # scrape html from member's fullcredits page
+#             url        = "https://www.imdb.com/name/{member}/fullcredits"
+#             response   = requests.get(url)
+#             soup       = bs(response.content, "html.parser")
+
+#             # extract IMDB ids for films from CSS ids.
+#             stunt_divs = soup.find_all("div", id=re.compile(r"stunts-tt\w+"))
+#             film_ids   = [film["id"][7:] for film in stunt_divs]
+#             all_films += film_ids
+            
+
+#         # note total then deduplicate
+#         total_credits  = len(all_films)
+#         all_films      = list(set(all_films))
+
+#         print("Total credits: ", total_credits, "\n","All films: ", all_films)
+
+
+#         return HttpResponse(json.dumps([total_credits, all_films]))
+
+
+#     except Exception as e:
+
+#         print(f"An error occurred in the getFlicks view function: {str(e)}")
+#         return HttpResponse("An error occurred gathering the flick list", status=400)
+
 @csrf_exempt
 def getFlicks(request):
-
     try:
-
         data = json.loads(request.body)
-        team = data.get('team', []) 
-        print(f"Retrieving flicklist for the following team members:\n{team}\n")
+        team = data.get('team', [])
+        print(f"Received POST request with data: {data}")
 
         all_films = []
 
         for member in team:
-
-            # scrape html from member's fullcredits page
-            url        = "https://www.imdb.com/name/{member}/fullcredits"
-            response   = requests.get(url)
-            soup       = bs(response.content, "html.parser")
+            # scrape HTML from member's fullcredits page
+            url = f"https://www.imdb.com/name/{member}/fullcredits"
+            response = requests.get(url)
+            response.raise_for_status()  # Raise an exception if there's an HTTP error
+            soup = bs(response.content, "html.parser")
 
             # extract IMDB ids for films from CSS ids.
             stunt_divs = soup.find_all("div", id=re.compile(r"stunts-tt\w+"))
-            film_ids   = [film["id"][7:] for film in stunt_divs]
+            film_ids = [film["id"][7:] for film in stunt_divs]
             all_films += film_ids
-            
 
-        # note total then deduplicate
-        total_credits  = len(all_films)
-        all_films      = list(set(all_films))
+        # Note total then deduplicate
+        total_credits = len(all_films)
+        all_films = list(set(all_films))
+        print(f"Total credits: {total_credits}, All films: {all_films}")
 
-        print("Total credits: ", total_credits, "\n","All films: ", all_films)
+        return JsonResponse({"total_credits": total_credits, "all_films": all_films})
 
+    except requests.exceptions.RequestException as req_error:
+        print(f"Request error: {str(req_error)}")
+        return HttpResponse("An error occurred making the IMDb request", status=500)
 
-        return HttpResponse(json.dumps([total_credits, all_films]))
-
+    except json.JSONDecodeError as json_error:
+        print(f"JSON decode error: {str(json_error)}")
+        return HttpResponse("An error occurred decoding JSON data", status=400)
 
     except Exception as e:
-
         print(f"An error occurred in the getFlicks view function: {str(e)}")
-        return HttpResponse("An error occurred gathering the flick list", status=400)
+        return HttpResponse("An error occurred gathering the flick list", status=500)
 
-    
     
 
 
