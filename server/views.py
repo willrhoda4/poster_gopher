@@ -94,7 +94,9 @@ def getFlicks(request):
         all_films = list(set(all_films))
         print(f"Total credits: {total_credits}, All films: {all_films}")
 
-        return JsonResponse({"total_credits": total_credits, "all_films": all_films})
+        # return JsonResponse({"total_credits": total_credits, "all_films": all_films})
+        return HttpResponse(json.dumps([total_credits, all_films]))
+
 
     except requests.exceptions.RequestException as req_error:
         print(f"Request error: {str(req_error)}")
