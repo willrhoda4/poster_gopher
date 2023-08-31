@@ -29,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'poster-gopher.vercel.app',
-    'poster-gopher-161xx0knm-willrhoda4.vercel.app'
+    'poster-gopher-161xx0knm-willrhoda4.vercel.app',
+    'poster-gopher-907pac5p3-willrhoda4.vercel.app',
 ]
 
 
