@@ -43,7 +43,7 @@ def getFlicks(request):
         for member in team:
 
             # scrape html from member's fullcredits page
-            url        = f"https://www.imdb.com/name/{member}/fullcredits"
+            url        = "https://www.imdb.com/name/{member}/fullcredits"
             response   = requests.get(url)
             soup       = bs(response.content, "html.parser")
 
@@ -85,7 +85,7 @@ def getPoster(request):
 
 
         # headers and session stop IMDB from smelling a scraper. 
-        url        = f"https://www.imdb.com/title/{imdbId}/"
+        url        = "https://www.imdb.com/title/{imdbId}/"
         headers    = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
         session    = requests.Session()
 
