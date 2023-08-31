@@ -28,7 +28,8 @@ SECRET_KEY = get_random_secret_key()
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'poster-gopher.vercel.app'
+    'poster-gopher.vercel.app',
+    'poster-gopher-161xx0knm-willrhoda4.vercel.app'
 ]
 
 
