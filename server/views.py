@@ -15,7 +15,8 @@ from   django.http                  import HttpResponse, JsonResponse
 from   bs4                          import BeautifulSoup as bs
 
 
-
+import asyncio
+import aiohttp
 
 # HelloWorld left in place for testing purposes.
 @csrf_exempt
