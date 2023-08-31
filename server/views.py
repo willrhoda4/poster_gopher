@@ -17,7 +17,7 @@ from   bs4                          import BeautifulSoup as bs
 
 
 
-# HelloWorld left in place for testing purposes
+# HelloWorld left in place for testing purposes.
 @csrf_exempt
 def hello_world(request):
     return HttpResponse("Hello, World!")
