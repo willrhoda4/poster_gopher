@@ -161,7 +161,7 @@ def getPoster(request):
 def getPosters(request):
     try:
         data = json.loads(request.body)
-        imdb_ids = data.get('imdb_ids', [])
+        imdb_ids = data.get('imdbIds', [])
         print(f"Trying to find data for these IMDb IDs: {imdb_ids}\n")
 
         # Initialize an empty list to store poster data
