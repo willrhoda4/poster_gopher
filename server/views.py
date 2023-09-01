@@ -85,7 +85,8 @@ def getFlicks(request):
 
 
 
-
+# this function runs for short poster lists, but you risk timing out on long ones.
+# therefore, we stuck with getPoster in production.
 @csrf_exempt
 def getPosters(request):
 
