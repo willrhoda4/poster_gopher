@@ -86,7 +86,7 @@ def getFlicks(request):
 
 
 
-# @csrf_exempt
+@csrf_exempt
 def getPosters(request):
 
     try:
@@ -132,15 +132,6 @@ def getPosters(request):
     except Exception as e:
         print(f"An error occurred in the getPosters view function: {str(e)}")
         return HttpResponse("An error occurred getting posters", status=400)
-
-
-
-
-
-
-
-
-
 
 
 
