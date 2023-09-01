@@ -126,8 +126,13 @@ def getPosters(request):
             # Append the poster data to the list
             poster_data.append(poster_info)
 
-        # Return the list of poster data as a JSON response
-        return JsonResponse(poster_data, safe=False)
+        # Create a JsonResponse with the poster data
+        response = JsonResponse(poster_data, safe=False)
+
+        # Set the Access-Control-Allow-Origin header to allow requests from any origin
+        response["Access-Control-Allow-Origin"] = "*"
+
+        return response
 
     except Exception as e:
         print(f"An error occurred in the getPosters view function: {str(e)}")
